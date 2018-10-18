@@ -1,6 +1,6 @@
 ---
 
-title: Go | Go开发环境搭建与Go1.11模块支持
+title: Go | Go开发环境搭建与Go1.11模块
 date: 2018-9-23
 categories: Go
 tags: Go
@@ -9,6 +9,8 @@ tags: Go
 Golang是Google开发的一种静态强类型、编译型、开发型，并具有垃圾回收的编程语言。本文将介绍Go开发环境的搭建、Go开发基础知识以及Go 1.11的新特性Module。
 
 <!-- more -->
+
+学习Golang需要有基础的Git知识，可参考[Tool | Git日常使用总结](https://icytown.com/tool/git-manual/)。
 
 ## 前言
 

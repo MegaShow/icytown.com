@@ -1,6 +1,6 @@
 ---
 title: LeetCode | 32 Longest Valid Parentheses
-date: 2018-9-27
+date: 2018-10-2
 categories: LeetCode
 ---
 

@@ -240,4 +240,132 @@ BitTorrent是一种用于文件分发的流行P2P协议，参与一个特定文�
 
 **分布式散列表(Distributed Hash Table, DHT)**，键是一个目录名，值是具有该目录副本的对等方IP地址。
 
- 
+ DHT能被设计成每个对等方的邻居数量以及每个请求的报文数量均为$O(logN)$，其中$N$是对等方的数量。
+
+## 2.7 TCP套接字编程
+
+**UDP套接字编程**：
+
+```python
+# client.py
+from socket import *
+
+serverName = 'localhost'
+serverPort = 23334
+
+clientSocket = socket(AF_INET, SOCK_DGRAM)
+message = raw_input('Input lowercase sentence: ')
+clientSocket.sendto(message, (serverName, serverPort))
+modifiedMessage, serverAddress = clientSocket.recvfrom(2048)
+print modifiedMessage
+clientSocket.close()
+```
+
+```python
+# server.py
+from socket import *
+
+serverPort = 23334
+
+serverSocket = socket(AF_INET, SOCK_DGRAM)
+serverSocket.bind(('', serverPort))
+print 'This server is ready to receive'
+while 1:
+    message, clientAddress = serverSocket.recvfrom(2048)
+    serverSocket.sendto(message.upper(), clientAddress)
+```
+
+`AF_INET`指定了底层网络使用IPv4，`SOCK_DGRAM`意味着这是一个UDP套接字。
+
+**TCP套接字编程**：
+
+```python
+# client.py
+from socket import *
+
+serverName = 'localhost'
+serverPort = 23334
+
+clientSocket = socket(AF_INET, SOCK_STREAM)
+clientSocket.connect((serverName, serverPort))
+message = raw_input('Input lowercase sentence: ')
+clientSocket.send(message)
+modifiedMessage, addr = clientSocket.recvfrom(1024)
+print modifiedMessage
+clientSocket.close()
+```
+
+```python
+# server.py
+from socket import *
+
+serverPort = 23334
+
+serverSocket = socket(AF_INET, SOCK_STREAM)
+serverSocket.bind(('', serverPort))
+serverSocket.listen(1)
+print 'This server is ready to receive'
+while 1:
+    connectionSocket, addr = serverSocket.accept()
+    message, addr = connectionSocket.recvfrom(1024)
+    connectionSocket.send(message.upper())
+    connectionSocket.close()
+```
+
+`SOCK_STREAM`表明它是一个TCP套接字。
+
+# 第3章 运输层
+
+## 3.1 概述和运输层服务
+
+运输层协议为运行在不同主机上的应用进程之间提供了**逻辑通信(logic communication)**功能。在发送端，运输层将发送应用程序进程接收到的报文转换成运输层分组，该分组被称为运输层**报文段(segment)**。运输层将报文端传递给网络层。
+
+因特网网络层协议有一个名字叫IP，即网际协议。IP为主机之间提供了逻辑通信，IP的服务模型是**尽力而为交付服务(best-effort delivery service)**，意味着IP尽力再主机间交付报文段，但它并不做任何确保。IP被称为**不可靠服务(unreliable service)**。每一台主机至少有一个网络层地址，即所谓的IP地址。
+
+UDP和TCP最基本的责任是，将两个端系统间IP的交付服务扩展为运行再端系统上的两个进程之间的交付服务。将主机间交付扩展到进程间交付被称为**运输层的多路复用(transport-layer multiplexing)**与**多路分解(demultiplexing)**。
+
+TCP提供**可靠数据传输(reliable data transfer)**，通过使用流量控制、序号、确认和定时器确保正确地、按序地将数据从发送进程交付给接收进程。TCP还提供**拥塞控制(congestion control)**，而UDP流量是不可调节的。
+
+## 3.2 多路复用与多路分解
+
+一个进程有一个或多个**套接字(socket)**，运输层实际上并没有直接将数据交付给进程，而是将数据交给了一个中间的套接字。每个套接字都有唯一的标识符，格式取决于它是UDP还是TCP套接字。
+
+将运输层报文段中的数据交付到正确的套接字的工作称为**多路分解(demultiplexing)**。套接字将报文传递到网络层的工作称为**多路复用(multiplexing)**。
+
+## 3.3 无连接运输：UDP
+
+部分应用更适合使用UDP的原因：
+
+* 关于何时、发送什么数据的应用层控制更为精细。
+* 无需连接建立。
+* 无连接状态。
+* 分组首部开销小。
+
+**UDP检验和**提供了差错检测功能，检验和用于确定当UDP报文段从源到达目的地移动时，其中的比特是否发生了改变。发送方的UDP对报文段中的所有16比特字的和进行反码运算，求和时遇到的任何溢出都被回卷，得到的结果被放在UDP报文段中的检验和字段。
+
+UDP必须在端到端基础上在运输曾提供差错检测，这是**端到端原则(end-end principle)**的系统设计。
+
+## 3.4 可靠数据传输原理
+
+数据可以通过一条可靠的信道进行传输，实现这种服务抽象是**可靠数据传输协议(reliable data transfer protocol)**的责任。
+
+最简单的情况是，底层信道是完全可靠的，我们称该协议为**rdt 1.0**。
+
+底层信道实际模型是分组中的比特可能受损，需要控制报文来使得接收方可以让发送方知道哪些内容被正确接受。基于这样重传机制的可靠数据传输协议成为**自动重传请求(Automatic Repeat reQuest, ARQ)协议**，包括差错检测、接收方反馈、重传。
+
+**rdt 2.0**存在一个致命的缺陷，没有考虑到ACK或NAK分组受损的可能性。解决方法是在数据分组中添加一新字段，让发送方对其数据分组编号，即将发送数据分组的**序号(sequence number)**放在该字段。
+
+假定比特受损外，底层信道还会丢包。为了实现基于时间的重传机制，**rdt 3.0**需要一个**倒计数定时器(countdown timer)**，在一个给定的时间量过期后，可中断发送方。因为分组序号在0和1之间交替，**rdt 3.0**有时被称为**比特交替协议(alternating-bit protocol)**。
+
+**回退N步(Go-Back-N)协议**允许发送方发送多个分组而不需要等待确认，但也受限于在流水线中未确认的分组数不能超过某个最大允许数N。N常被称为**窗口长度(window size)**，GBN协议也常被称为**滑动窗口协议(sliding-window protocol)**。
+
+TCP有一个32比特的序号字段，其中的TCP序号是按字节流中的字节进行计数的，而不是按分组计数。
+
+**选择重传(SR)**协议通过让发送方仅重传那些它怀疑在接收方出错的分组，而避免了不必要的重传。
+
+## 3.5 面向连接的运输：TCP
+
+TCP被称为是**面向连接的(connection-oriented)**，这是因为在一个应用进程可以开始向另一个应用进程发送数据之前，这两个进程必须先相互“握手”。
+
+TCP连接提供的是**全双工服务(full-duplex service)**，也总是**点对点(point-to-point)**的。TCP会将数据引导到该连接的**发送缓存(send buffer)**里，TCP可从缓存中取出并放入报文段中的数据数量受限于**最大报文段长度(Maximum Segment Size, MSS)**。MSS通常根据最初确定的由本地发送主机发送的最大链路层帧长度(即**最大传输单元(Maximum Transmission Unit, MTU)**)来设置。
+

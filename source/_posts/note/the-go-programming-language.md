@@ -1101,12 +1101,12 @@ const templ = `{{.TotalCount}} issues:
 {{range .Items}}----------------------------------------
 Number: {{.Number}}
 User:   {{.User.Login}}
-Title:  {{.Title | printf "%.64s"}}
+Title:  {{.Title | printf "\%.64s"}}
 Age:    {{.CreatedAt | daysAgo}} days
 {{end}}`
 ```
 
-模板中`{{.TotalCount}}`对应action将展开为结构体的`TotalCount`成员；`{{range .Items}}`和`{{end}}`对应一个循环action；`|`操作符表示将前一个表达式的结果作为后一个函数的输入，类似UNIX的管道的概念。
+模板`{{点TotalCount}}`对应action将展开为结构体的`TotalCount`成员；`{{range .Items}}`和`{{end}}`对应一个循环action；`|`操作符表示将前一个表达式的结果作为后一个函数的输入，类似UNIX的管道的概念。
 
 生成模板输出有两个处理步骤：第一步是要分析模板并转为内部表示，然后基于指定的输入指向模板。
 
@@ -1122,6 +1122,7 @@ if err != nil {
 因为模板通常是在编译时就测试好了，如果模板解析失败将是一个致命的错误。`template.Mute`辅助函数可以简化这个致命错误的处理：它接受一个模板和一个error类型的参数，检测error是否为nil，然后返回传入的模板。
 
 `html/template`使用和`text/template`包相同的API和模板语言，但是增加了一个将字符串自动转义特性，可以避免输入字符串和HTML、JavaScript、CSS或URL语法产生冲突的问题。
+
 
 # 第五章 函数
 
