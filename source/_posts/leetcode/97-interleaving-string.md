@@ -1,6 +1,6 @@
 ---
 title: LeetCode | 97 Interleaving String
-date: 2018-11-20
+date: 2018-11-24
 categories: LeetCode
 ---
 
@@ -33,7 +33,6 @@ Output: false
 我们假定$DP[i][j]$为$S1[:i]、S2[:j]$的交错问题的答案，即需要判断$S3[:i+j]$是否为$S1[:i]、S2[:j]$交错构成的字符串。那么，$DP[i][j]$跟$DP[i-1][j]$和$DP[i][j-1]$的值密切相关。
 
 我们可以得到如下的表达式：
-
 $$
 \begin{equation}
 DP[i][j]=\left\{
