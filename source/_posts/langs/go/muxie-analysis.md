@@ -1,12 +1,10 @@
 ---
-title: Go | Muxie，一个路由框架的源码分析
-categories: Go
+title: Langs | Go Muxie，一个路由框架的源码分析
+categories: Languages Explore
 date: 2018-11-15
 tags:
-  - Multiplexer
-  - Router
-  - Mux
-  - Muxie
+- Go
+- Router
 ---
 
 得益于Golang标准库的完善，使用Golang开发Web后端应用非常简单。也因此催生出了诸如httprouter、Mux、Muxie等multiplexer，也有类似于Gin、Echo、Iris、Beego等Web框架。

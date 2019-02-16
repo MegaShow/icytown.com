@@ -1,8 +1,8 @@
 ---
 
-title: Go | Go开发环境搭建与Go1.11模块
+title: Langs | Go开发环境搭建与Go1.11模块
 date: 2018-9-23
-categories: Go
+categories: Languages Explore
 tags: Go
 ---
 
@@ -14,7 +14,7 @@ Golang是Google开发的一种静态强类型、编译型、开发型，并具�
 
 ## 前言
 
-![qzone](go-dev-env-build/qzone.png)
+![qzone](dev-env-build/qzone.png)
 
 Bug服务端用啥？GoGoGo！
 
