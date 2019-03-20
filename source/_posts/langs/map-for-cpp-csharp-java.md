@@ -1,11 +1,11 @@
 ---
-title: .NET | C++、Java、C#中的Map
+title: Langs | C++、Java、C#中的Map
 date: 2017-11-1
-categories: .NET
+categories: Languages Explore
 tags:
-  - CSharp
-  - Java
-  - C++
+- CSharp
+- Java
+- Cpp
 ---
 
 呃，先说写题外话，这篇文章涉及了C++、Java、C#，但是本菜秀分类于`.NET Core`，是因为写这篇文章的初衷是为了学习C#的Map，只不过因为某些原因顺便提一下C++和Java。(为了这玩意我又把WSL装回来，顺便~Google真的好用)

@@ -1,8 +1,10 @@
 ---
-title: JavaScript | Cropper制作头像系统(前端)
+title: Langs | jQuery Cropper制作头像系统
 date: 2017-9-6
-categories: JavaScript
-tags: JQuery
+categories: Languages Explore
+tags:
+- JavaScript
+- jQuery
 ---
 
 最近开发Violet的时候，需要上线一个头像系统，搜索之后发现有个叫[Cropper](https://github.com/fengyuanchen/cropper)的jQuery裁剪插件。然后几经使用之后，又发现它的脱离jQuery版本[Cropper.JS](https://github.com/fengyuanchen/cropperjs)。虽然官方推荐使用Cropper.JS，但是为了方便一点我还是决定先尝试Cropper，毕竟原项目使用了jQuery。
@@ -129,3 +131,4 @@ $('#image').cropper({
 ---
 
 突然觉得自己好水啊~
+

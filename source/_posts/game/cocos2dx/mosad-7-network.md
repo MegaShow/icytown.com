@@ -1,8 +1,9 @@
 ---
 title: Game | Cocos2d-x游戏开发(7) 网络请求
 date: 2018-6-23
-categories: Game
-tags: Cocos2d-x
+categories: Game and Computer Graphics
+tags:
+- Cocos2dx
 ---
 
 Cocos2d-x游戏开发系列文章是本菜秀在《现代操作系统应用开发(MOSAD)》课程上的作业笔记，旨在加深自己对Cocos2d-x的认识，所以可能会排版无比奇葩。当然，这里不仅仅局限于课程上学到的东西，菜秀尽力分享更多东西。如果学疏才浅的菜秀有啥错误，欢迎指正。

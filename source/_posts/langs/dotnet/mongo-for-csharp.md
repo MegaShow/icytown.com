@@ -1,8 +1,11 @@
 ---
-title: .NET | Mongo for .NET Core
+title: Langs | Mongo for .NET Core
 date: 2017-9-3
-categories: .NET
-tags: Database
+categories: Languages Explore
+tags:
+- DotNET
+- CSharp
+- MongoDB
 ---
 
 在暑假正式来临之前，我们就打算把服务器数据库全部从MySQL迁移到MongoDB。自然，之前C#写的涉及数据库操作的代码要全盘修改。由于本菜秀的懒惰，一直拖到暑假结束都没有完成迁移，然而暑假一开始学的Mongo for C#又几乎忘光了，于是写篇博客来记录一下常用的操作。

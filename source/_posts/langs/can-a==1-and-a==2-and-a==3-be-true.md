@@ -1,10 +1,10 @@
 ---
-title: Explore | (a == 1 && a == 2 && a == 3)能否为true?
+title: Langs | (a == 1 && a == 2 && a == 3)能否为true?
 date: 2018-1-20
-categories: Explore
+categories: Languages Explore
 tags:
-  - JavaScript
-  - Ruby
+- JavaScript
+- Ruby
 ---
 
 今天在朋友圈看到某大佬转发的关于`(a == 1 && a == 2 && a == 3)`在`JavaScript`上能否为`true`的[文章](https://zhuanlan.zhihu.com/p/33029291)，觉得特别有趣，于是想了解一波。

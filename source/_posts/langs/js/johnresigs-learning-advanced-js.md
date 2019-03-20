@@ -1,7 +1,9 @@
 ---
-title: JavaScript | John Resig's Learning Advanced JavaScript
+title: Langs | John Resig's Learning Advanced JavaScript
 date: 2017-11-10
-categories: JavaScript
+categories: Languages Explore
+tags:
+- JavaScript
 ---
 
 这周的Web作业有个要求是去John Resig的个人网站上弄懂一个JavaScript教程，于是本菜秀写了这篇文章，如有不赞同的地方，请邮件联系，谢谢~
