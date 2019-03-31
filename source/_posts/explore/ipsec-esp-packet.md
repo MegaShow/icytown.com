@@ -1,9 +1,9 @@
 ---
 title: Explore | IPSec传输模式下ESP报文的装包和拆包
 date: 2018-12-17
-categories: Explore
+categories: Explore and Learning
 tags:
-  - Network
+- Network
 ---
 
 本文简单概述一下什么是IPSec以及传输模式下ESP报文的装包和拆包过程。由于作业不要求讲解隧道模式下的ESP报文的装包和拆包，这里就不提及了。

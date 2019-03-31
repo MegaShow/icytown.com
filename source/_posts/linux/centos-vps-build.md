@@ -2,7 +2,8 @@
 title: Linux | 配置CentOS私有云
 date: 2018-9-9
 categories: Linux
-tags: CentOS
+tags: 
+- VPS
 ---
 
 本文为《服务计算(Service Computing on Cloud)》课程的实验笔记，主要记录了利用VirtualBox配置CentOS私有云的过程和一些细节性知识。

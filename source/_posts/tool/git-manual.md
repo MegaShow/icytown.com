@@ -1,8 +1,9 @@
 ---
 title: Tool | Git日常使用总结
 date: 2018-9-14
-categories: Tool
-tags: Git
+categories: Tool Usage and Wiki
+tags:
+- Git
 ---
 
 本文为《手机平台应用开发(MAD)》课程、《服务计算(SCOC)》的作业，学习Git以及总结Git日常使用命令等。
