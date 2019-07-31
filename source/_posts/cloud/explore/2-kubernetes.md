@@ -13,11 +13,11 @@ tags:
 
 <!-- more -->
 
-## Kubernetes
+## 什么是Kubernetes？
 
 Kubernetes是一个生产级别的容器编排系统，是用于自动部署、扩展和管理容器化应用程序的开源系统，又被称为k8s。
 
-Kubernetes构建在Google的生产环境经验基础之上，深受Google内部系统Borg的影响，目前于Docker同为CNCF项目。
+Kubernetes构建在Google的生产环境经验基础之上，深受Google内部系统Borg的影响，目前与Docker同为CNCF项目。
 
 Kubernetes拥有以下的特性：
 
@@ -31,4 +31,36 @@ Kubernetes拥有以下的特性：
 接下来我们来尝试使用Kubernetes。
 
 ## 安装Kubernetes
+
+我们需要在每一台设备上都安装以下的软件包：
+
+* `kubeadm`：用来初始化集群的指令。
+* `kubelet`：在集群中的每个节点上用来启动pod和container等。
+* `kubectl`：用来与集群通信的命令行工具。
+
+```sh
+$ cat <<EOF > /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=http://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=0
+repo_gpgcheck=0
+gpgkey=http://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg
+       http://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg
+EOF
+```
+
+```sh
+$ setenforce 0
+$ sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
+```
+
+```sh
+$ yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+```
+
+```sh
+$ systemctl enable kubelet && systemctl start kubelet
+```
 
