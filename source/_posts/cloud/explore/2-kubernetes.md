@@ -38,6 +38,36 @@ Kubernetes拥有以下的特性：
 * `kubelet`：在集群中的每个节点上用来启动pod和container等。
 * `kubectl`：用来与集群通信的命令行工具。
 
+本文我们将使用两台设备来尝试搭建k8s环境，首先，我们需要确保每个节点的MAC地址和`product_uuid`均为不一致的。
+
+```sh
+$ ip link
+$ cat /sys/class/dmi/id/product_uuid
+```
+
+然后需要确保各个节点之间能互通，且要确保以下端口是开放的。
+
+对于Master节点，有如下端口：
+
+| 规则 | 端口范围  |          作用           |        使用者        |
+| :--: | :-------: | :---------------------: | :------------------: |
+| TCP  |   6443    |  Kubernetes API server  |         All          |
+| TCP  | 2379-2380 | etcd server client API  | kube-apiserver, etcd |
+| TCP  |   10250   |       Kubelet API       | Self, Control plane  |
+| TCP  |   10251   |     kube-scheduler      |         Self         |
+| TCP  |   10252   | kube-controller-manager |         Self         |
+
+对于Worker节点，有如下端口：
+
+| 规则 |  端口范围   |       作用        | 使用者 |
+| :--: | :---------: | :---------------: | :----: |
+| TCP  |    10250    |  Kubernetes API   |  All   |
+| TCP  | 30000-32767 | NodePort Services |  All   |
+
+然后，我们需要安装runtime。Kubernetes的默认容器运行时是Docker，只要我们按照上一篇文章安装好Docker即可。当然，我们可以选择别的容器运行时，Kubernetes也支持`containerd`、`cri-o`、`frakti`、`rkt`等。
+
+接下来，配置国内的`yum`源，这里我们选择阿里云。
+
 ```sh
 $ cat <<EOF > /etc/yum.repos.d/kubernetes.repo
 [kubernetes]
@@ -51,16 +81,52 @@ gpgkey=http://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg
 EOF
 ```
 
+然后禁用SELinux，目前kubelet并不支持SELinux。
+
 ```sh
 $ setenforce 0
 $ sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
 ```
 
+安装`kubeadm`等工具。
+
 ```sh
 $ yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
 ```
 
+启动`kubelet`服务。
+
 ```sh
 $ systemctl enable kubelet && systemctl start kubelet
+```
+
+## 初始化k8s节点
+
+由于国内无法访问`gcr.io`，我们需要使用阿里云的镜像。
+
+首先，输出`kubeadm`的默认配置。
+
+```sh
+$ kubeadm config print init-defaults > kubeadm-init.yaml
+```
+
+`imageRepository`修改成`registry.aliyuncs.com/google_containers`。
+
+```sh
+$ kubeadm config images pull --config kubeadm-init.yaml
+```
+
+```sh
+$ kubeadm init --config kubeadm-init.yaml
+```
+
+
+
+```sh
+$ kubeadm join 192.168.10.21:6443 --token abcdef.0123456789abcdef --discovery-token-ca-cert-hash sha256:564e3ba4b76649e981300fcea9e4400b759f91a02f4a968e035ada454f3a1d2e
+```
+
+```sh
+$ kubectl get nodes
 ```
 
