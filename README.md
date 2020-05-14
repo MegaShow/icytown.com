@@ -1,4 +1,4 @@
-# [icytown.com](https://icytown.com)
+# [blog.icytown.com](https://blog.icytown.com)
 
 千万世界，小小冰镇。
 
