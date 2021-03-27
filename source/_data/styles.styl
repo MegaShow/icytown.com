@@ -5,16 +5,25 @@ a:hover {
 
 // 修改引用背景
 blockquote {
-    border-left: 4px solid rgb(75, 186, 132) !important;
-    background: rgb(236, 248, 242) !important;
+  border-left: 4px solid rgb(75, 186, 132) !important;
+  background: rgb(236, 248, 242) !important;
 }
 
+// Markdown中的``
 code {
-    color: rgb(233, 126, 30) !important;
-    background: rgb(248, 248, 248) !important;
+  color: rgb(233, 126, 30) !important;
+  //background: rgb(248, 248, 248) !important;
 }
 
+// 代码复制按钮
 .copy-btn {
   border: 0px solid #d5d5d5 !important;
   background: rgb(221,221,221) !important;
+}
+
+// 文章摘要元信息左对齐
+.index .post-meta {
+  display: flex;
+  flex-warp: wrap;
+  justify-content: left;
 }
